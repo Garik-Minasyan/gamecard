@@ -1,22 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import imageCards from '../../utils/utils';
 import { AnimalImg, BackPage, Image, ImagesWrapper, ParentBlock } from "./Style";
 
 
 const SelectCard = () => {
-    const elementRef = useRef(null);
-    const imgsName = useRef(null);
-    const [prev, setPref] = useState('');
-    const [avatar, setAvatar] = useState([]);
-
-    // useEffect(() => {
-    //     doubleImage();
-    //     if (newArr !== []) {
-    //         setImage(false)
-    //     }
-    // }, [])
-    console.log(imageCards)
-
+    let avatar = []
     const handleTurnImg = (ev) => {
         const isRotade = ev.target.classList.contains('rotate');
         if (isRotade) {
@@ -26,36 +14,32 @@ const SelectCard = () => {
         }
     }
 
-
-
     const handleImgeid = (name) => {
-        setAvatar(avatar => [...avatar, name]);
-        avatar.map(elem => console.log(elem, 'kkkk'))
-        // if (avatar.length === 1) {
-        //     for (let i = 0; i > avatar.length; i++) {
-        //         if (avatar[0] === avatar[1]) {
-        //             alert('varam')
-        //         } else {
-        //             console.log('gagik')
-        //         }
-        //     }
-        // }
+        avatar.push(name)
+        if (avatar.length >= 2 && avatar[0] === avatar[1]) {
+            imageCards.data.filter(elem => elem.name !== avatar[1], console.log('lkkooooo'));
+            avatar = []
+            console.log(imageCards.data, 'lll');
+
+            console.log('jisht e')
+        } else if (avatar.length >= 2 && avatar[0] !== avatar[1]) {
+            avatar = []
+            console.log('sxal e')
+        }
+
     }
-
-
 
     return (
         <ImagesWrapper>
             {
-                imageCards.data?.map(item => {
+                imageCards.data.map(item => {
                     return (
                         <ParentBlock
                             onClick={() => handleImgeid(item.name)}
-                            ref={imgsName} key={item.id}>
+                            key={item.id}>
                             <AnimalImg >
                                 <Image src={item.src} alt="png" />
                                 <BackPage
-                                    ref={elementRef}
                                     onClick={handleTurnImg} />
                             </AnimalImg>
                         </ParentBlock>
